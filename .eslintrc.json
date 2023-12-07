@@ -1,0 +1,82 @@
+{
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "project": ["./tsconfig.json", "./tsconfig.node.json"]
+  },
+  "rules": {
+    // * All JS rules
+    "no-console": "off",
+    "no-underscore-dangle": 0,
+    "no-warning-comments": [
+      2,
+      { "terms": ["temp", "no-commit", "dont-commit"], "location": "start" }
+    ],
+    "radix": 0,
+    "global-require": 0,
+    "quote-props": ["error", "consistent-as-needed"],
+    "no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true,
+        "allowTaggedTemplates": true
+      }
+    ],
+    // "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
+    "object-shorthand": ["error", "properties"],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "distinctGroup": true,
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "index",
+          "sibling",
+          "parent",
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "~/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "*.css",
+            "group": "type",
+            "patternOptions": { "matchBase": true },
+            "position": "after"
+          }
+        ]
+      }
+    ],
+
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "no-restricted-exports": [
+      "error",
+      {
+        "restrictDefaultExports": {
+          "direct": false, // 1. export default foo; export default 42; export default function foo() {}
+          "named": false, // 2. export { foo as default };
+          "defaultFrom": false, // 3. export { default } from "mod"; export { default as default } from "mod";
+          "namedFrom": false, // 4. export { foo as default } from "mod";
+          "namespaceFrom": false // 5. export * as default from "mod"
+        }
+      }
+    ]
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  }
+}
