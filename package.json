@@ -28,6 +28,8 @@
   },
   "homepage": "https://github.com/shirshendubhowmick/cube-dashboard#readme",
   "dependencies": {
+    "@cubejs-client/core": "^0.34.27",
+    "@cubejs-client/react": "^0.34.27",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.52.0",
