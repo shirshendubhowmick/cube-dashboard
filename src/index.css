@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap");
+
+@tailwind base;
+
+@layer base {
+  * {
+    @apply font-roboto;
+  }
+
+  body {
+    /* stylelint-disable-next-line function-no-unknown */
+    color: theme(colors.gray.800);
+
+    @apply text-base;
+  }
+
+  h1 {
+    @apply text-3xl;
+    @apply font-bold;
+  }
+
+  h2 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+
+  h3 {
+    @apply text-xl;
+    @apply font-bold;
+  }
+
+  h4 {
+    @apply text-lg;
+    @apply font-bold;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
