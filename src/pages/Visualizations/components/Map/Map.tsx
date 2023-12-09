@@ -1,7 +1,6 @@
 import Map, { Layer, Source } from "react-map-gl";
 import { Projection } from "mapbox-gl";
 import { useCubeQuery } from "@cubejs-client/react";
-import cubejs from "@cubejs-client/core";
 import { useMemo } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -11,22 +10,21 @@ import {
   unclusteredPointLayer,
 } from "./layer";
 
+import useCubeApi from "../../../../hooks/useCubeApi";
+
 const projection: Projection = {
   name: "mercator",
   center: [0, 0],
 };
 
-const cubejsApi = cubejs(CUBEJS_TOKEN, {
-  apiUrl: CUBEJS_API_URL,
-});
-
 function MapVisualization() {
+  const cubeApi = useCubeApi();
   const { resultSet, isLoading, error } = useCubeQuery(
     {
       dimensions: ["Meteorites.location"],
     },
     {
-      cubejsApi,
+      cubeApi,
     },
   );
 
