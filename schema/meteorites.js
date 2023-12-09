@@ -14,6 +14,16 @@ cube(`Meteorites`, {
       type: `string`,
     },
 
+    location: {
+      type: "geo",
+      latitude: {
+        sql: `latitude`,
+      },
+      longitude: {
+        sql: `longitude`,
+      },
+    },
+
     country: {
       sql: `country`,
       type: `string`,
