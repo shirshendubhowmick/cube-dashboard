@@ -1,11 +1,19 @@
+import { useEffect } from "react";
+
 import Visualizations from "./pages/Visualizations/Visualizations";
-import { StoreProvider } from "./store";
+import useStore from "./store";
 
 function App() {
+  const [, actionFunctions] = useStore();
+
+  useEffect(() => {
+    actionFunctions.authCheckComplete();
+  }, []);
+
   return (
-    <StoreProvider>
+    <>
       <Visualizations />
-    </StoreProvider>
+    </>
   );
 }
 
