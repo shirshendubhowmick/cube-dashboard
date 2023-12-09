@@ -78,5 +78,12 @@
   "env": {
     "browser": true,
     "jest": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".tsx", ".ts"]
+      }
+    }
   }
 }
