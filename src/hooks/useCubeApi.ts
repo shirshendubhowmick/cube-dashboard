@@ -12,7 +12,7 @@ function useCubeApi() {
         apiUrl: CUBEJS_API_URL,
       });
     }
-    return null;
+    return undefined;
   }, [store.userAuthData.authData.cubeApiToken]);
 
   return cubeApi;
