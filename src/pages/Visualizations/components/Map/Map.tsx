@@ -11,6 +11,8 @@ import {
 } from "./layer";
 
 import useCubeApi from "../../../../hooks/useCubeApi";
+import ErrorCard from "../../../../components/ErrorCard/ErrorCard";
+import Loader from "../../../../components/Loader/Loader";
 
 const projection: Projection = {
   name: "mercator",
@@ -27,10 +29,6 @@ function MapVisualization() {
       cubeApi,
     },
   );
-
-  if (error) {
-    console.log(">>>Err", error);
-  }
 
   const geoJson = useMemo(() => {
     const data = {
@@ -57,12 +55,23 @@ function MapVisualization() {
     return data;
   }, [resultSet]);
 
+  if (error) {
+    <div className="flex justify-center">
+      <ErrorCard />
+    </div>;
+  }
+
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   return (
     <div className="flex justify-center">
+      <p>Meteorites data across the globe</p>
       <Map
         mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
         initialViewState={{ latitude: 0, longitude: 0, zoom: 1 }}
