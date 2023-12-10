@@ -12,16 +12,21 @@ function Header() {
   }, []);
 
   return (
-    <header className="flex items-center justify-between bg-gray-800 px-4 py-4 font-bold text-white">
-      <div className="max-w-[1120px]">Meteorites dashboard</div>
-
+    <header className="flex items-center justify-between bg-gray-800 px-4 py-4 text-white">
+      <div className="max-w-[1120px] text-lg font-bold">
+        Meteorites dashboard
+      </div>
       {state.userAuthData.isAuthenticated && (
         <div>
-          <p>
+          <span className="mr-4">
             {state.userAuthData.userData?.firstName}{" "}
             {state.userAuthData.userData?.lastName}
-          </p>
-          <button onClick={onLogout} type="button">
+          </span>
+          <button
+            onClick={onLogout}
+            type="button"
+            className="rounded border border-solid border-white px-4 py-2 text-white"
+          >
             Logout
           </button>
         </div>
