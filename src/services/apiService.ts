@@ -1,19 +1,12 @@
 import initNetworkRequest from "./networkServices";
 
 import apiMap from "../constants/apiMap";
+import { UserData } from "../types";
 
 export interface UserLoginResponse {
   csrfToken: string;
   cubeApiToken: string;
-  user: {
-    id: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    active: Boolean;
-    createdAt: Date;
-    updatedAt: Date;
-  };
+  user: UserData;
 }
 
 export async function userLogin(username: string, password: string) {
@@ -25,7 +18,7 @@ export async function userLogin(username: string, password: string) {
       password,
     },
   });
-  return response.data;
+  return response.data.data;
 }
 
 export async function userLogout() {

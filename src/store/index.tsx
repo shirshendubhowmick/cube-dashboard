@@ -1,20 +1,18 @@
 import { createContext, useContext, useMemo, useReducer } from "react";
 
+import { UserData } from "../types";
+
 export interface UserAuthData {
   isAuthenticated: boolean;
   isAuthCheckComplete: boolean;
-  userData: {
-    id: string;
-    name: string;
-    role: string;
-  };
+  userData: UserData | null;
   authData: {
     cubeApiToken: string;
   };
 }
 
 export interface ActionFunctions {
-  userLoggedIn: (payload: UserAuthData) => void;
+  userLoggedIn: (payload: { userData: UserData; cubeApiToken: string }) => void;
   userLoggedOut: () => void;
   authCheckComplete: () => void;
 }
@@ -27,11 +25,7 @@ const initialState: State = {
   userAuthData: {
     isAuthCheckComplete: false,
     isAuthenticated: false,
-    userData: {
-      id: "",
-      name: "",
-      role: "",
-    },
+    userData: null,
     authData: {
       cubeApiToken: "",
     },
@@ -51,7 +45,10 @@ const StoreContext = createContext<[State, ActionFunctions]>([
 
 export interface UserLoggedInAction {
   type: "USER_LOGGED_IN";
-  payload: UserAuthData;
+  payload: {
+    userData: UserData;
+    cubeApiToken: string;
+  };
 }
 
 export interface UserLoggedOutAction {
@@ -72,7 +69,14 @@ function reducer(state: State, action: Actions): State {
     case "USER_LOGGED_IN":
       return {
         ...state,
-        userAuthData: action.payload,
+        userAuthData: {
+          isAuthCheckComplete: true,
+          isAuthenticated: true,
+          userData: action.payload.userData,
+          authData: {
+            cubeApiToken: action.payload.cubeApiToken,
+          },
+        },
       };
     case "USER_LOGGED_OUT":
       return {
@@ -99,7 +103,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const actionFunctions = useMemo(
     () => ({
-      userLoggedIn: (payload: UserAuthData) =>
+      userLoggedIn: (payload: UserLoggedInAction["payload"]) =>
         dispatch({ type: "USER_LOGGED_IN", payload }),
       userLoggedOut: () => dispatch({ type: "USER_LOGGED_OUT" }),
       authCheckComplete: () => dispatch({ type: "AUTH_CHECK_COMPLETE" }),
