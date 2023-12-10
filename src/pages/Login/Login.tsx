@@ -1,10 +1,25 @@
 import { useCallback } from "react";
 
+import { userLogin } from "../../services/apiService";
+import useStore from "../../store";
+import { setCsrfToken } from "../../services/storage";
+
 function Login() {
-  const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+  const [, actionFunctions] = useStore();
+
+  const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log(data.get("username"), data.get("password"));
+    const response = await userLogin(
+      data.get("username") as string,
+      data.get("password") as string,
+    );
+    setCsrfToken(response.csrfToken);
+    actionFunctions.userLoggedIn({
+      userData: response.user,
+      cubeApiToken: response.cubeApiToken,
+    });
   }, []);
 
   return (
