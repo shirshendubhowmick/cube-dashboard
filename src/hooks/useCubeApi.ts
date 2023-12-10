@@ -1,20 +1,18 @@
-import cubejs, { CubejsApi } from "@cubejs-client/core";
-import { useEffect } from "react";
+import cubejs from "@cubejs-client/core";
+import { useMemo } from "react";
 
 import useStore from "../store";
 
 function useCubeApi() {
   const [store] = useStore();
-  let cubeApi: CubejsApi | undefined;
 
-  useEffect(() => {
+  const cubeApi = useMemo(() => {
     if (store.userAuthData.authData.cubeApiToken) {
-      cubeApi = cubejs(CUBEJS_TOKEN, {
+      return cubejs(store.userAuthData.authData.cubeApiToken, {
         apiUrl: CUBEJS_API_URL,
       });
-      return;
     }
-    cubeApi = undefined;
+    return null;
   }, [store.userAuthData.authData.cubeApiToken]);
 
   return cubeApi;
