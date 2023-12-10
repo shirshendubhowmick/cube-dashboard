@@ -3,7 +3,6 @@ export function setCsrfToken(token: string) {
 }
 
 export function getCsrfToken(): string | null {
-  localStorage.removeItem("csrfToken");
   return localStorage.getItem("csrfToken");
 }
 

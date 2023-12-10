@@ -12,12 +12,6 @@ export interface UserAuthData {
   };
 }
 
-export interface ActionFunctions {
-  userLoggedIn: (payload: { userData: UserData; cubeApiToken: string }) => void;
-  userLoggedOut: () => void;
-  authCheckComplete: () => void;
-}
-
 export interface State {
   userAuthData: UserAuthData;
 }
@@ -49,6 +43,7 @@ export interface UserLoggedInAction {
   payload: {
     userData: UserData;
     cubeApiToken: string;
+    csrfToken?: string;
   };
 }
 
@@ -64,6 +59,12 @@ export type Actions =
   | UserLoggedInAction
   | UserLoggedOutAction
   | AuthCheckCompleteAction;
+
+export interface ActionFunctions {
+  userLoggedIn: (payload: UserLoggedInAction["payload"]) => void;
+  userLoggedOut: () => void;
+  authCheckComplete: () => void;
+}
 
 function reducer(state: State, action: Actions): State {
   switch (action.type) {
@@ -105,7 +106,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const actionFunctions = useMemo(
     () => ({
       userLoggedIn: (payload: UserLoggedInAction["payload"]) => {
-        setCsrfToken(payload.cubeApiToken);
+        if (payload.csrfToken) {
+          setCsrfToken(payload.csrfToken);
+        }
         dispatch({ type: "USER_LOGGED_IN", payload });
       },
       userLoggedOut: () => {

@@ -17,6 +17,7 @@ function Login() {
     actionFunctions.userLoggedIn({
       userData: response.user,
       cubeApiToken: response.cubeApiToken,
+      csrfToken: response.csrfToken,
     });
   }, []);
 

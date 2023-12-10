@@ -1,4 +1,5 @@
 import initNetworkRequest from "./networkServices";
+import { getCsrfToken } from "./storage";
 
 import apiMap from "../constants/apiMap";
 import { UserData } from "../types";
@@ -29,7 +30,7 @@ export async function userLogout() {
 }
 
 export async function validateSession() {
-  const csrfToken = localStorage.getItem("csrfToken");
+  const csrfToken = getCsrfToken();
   const response = await initNetworkRequest<
     Omit<UserLoginResponse, "csrfToken">
   >({
