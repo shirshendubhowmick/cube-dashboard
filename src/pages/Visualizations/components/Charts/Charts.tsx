@@ -7,6 +7,9 @@ import BarChart, {
 import PieChart, {
   PieChartComponentProps,
 } from "./components/PieChart/PieChart";
+import LineChart, {
+  LineChartComponentProps,
+} from "./components/LineChart/LineChart";
 
 import useCubeApi from "../../../../hooks/useCubeApi";
 
@@ -57,11 +60,28 @@ function Charts() {
     },
   );
 
+  const {
+    resultSet: yearWiseMassResultSet,
+    isLoading: yearWiseMasstIsLoading,
+    error: yearWiseMassError,
+  } = useCubeQuery(
+    {
+      dimensions: ["Meteorites.year"],
+      measures: ["Meteorites.totalMass"],
+      order: {
+        "Meteorites.year": "asc",
+      },
+    },
+    {
+      cubeApi,
+    },
+  );
+
   const yearWiseCountData = useMemo<BarChartComponentProps["data"]>(() => {
     if (yearWiseCountResultSet) {
       return yearWiseCountResultSet.tablePivot().map((item) => ({
         year: item["Meteorites.year"] as string,
-        count: parseInt(item["Meteorites.count"] as string),
+        value: parseInt(item["Meteorites.count"] as string),
       }));
     }
     return [];
@@ -87,6 +107,16 @@ function Charts() {
     return [];
   }, [countryWiseMassResultSet]);
 
+  const yearWiseMassData = useMemo<LineChartComponentProps["data"]>(() => {
+    if (yearWiseMassResultSet) {
+      return yearWiseMassResultSet.tablePivot().map((item) => ({
+        year: item["Meteorites.year"] as string,
+        mass: parseInt(item["Meteorites.totalMass"] as string) / 1000,
+      }));
+    }
+    return [];
+  }, [yearWiseMassResultSet]);
+
   return (
     <div>
       <BarChart
@@ -106,6 +136,12 @@ function Charts() {
         label="Country wise meteorite mass (grams)"
         isError={!!countryWiseMassError}
         isLoading={countryWiseMasstIsLoading}
+      />
+      <LineChart
+        data={yearWiseMassData}
+        label="Year wise meteorite mass (grams)"
+        isLoading={yearWiseMasstIsLoading}
+        isError={!!yearWiseMassError}
       />
     </div>
   );

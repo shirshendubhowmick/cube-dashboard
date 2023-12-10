@@ -1,30 +1,29 @@
 import {
-  BarChart,
-  Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
+  Legend,
+  Line,
+  LineChart,
 } from "recharts";
 
 import Loader from "../../../../../../components/Loader/Loader";
 import ErrorCard from "../../../../../../components/ErrorCard/ErrorCard";
 import Container from "../Container/Container";
 
-export interface BarChartComponentProps {
+export interface LineChartComponentProps {
   data: {
     year: string;
-    value: number | number[];
+    mass: number;
   }[];
   label: string;
   isLoading?: boolean;
   isError?: boolean;
 }
 
-function BarChartComponent(props: BarChartComponentProps) {
+function LineChartComponent(props: LineChartComponentProps) {
   if (props.isError) {
     return (
       <Container label={props.label}>
@@ -44,12 +43,12 @@ function BarChartComponent(props: BarChartComponentProps) {
   return (
     <Container label={props.label}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart
+        <LineChart
           data={props.data}
           margin={{
             top: 5,
-            left: 100,
             bottom: 5,
+            left: 20,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -57,15 +56,17 @@ function BarChartComponent(props: BarChartComponentProps) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar
-            dataKey="value"
-            fill="#8884d8"
-            activeBar={<Rectangle fill="pink" stroke="blue" />}
+          <Line
+            type="monotone"
+            dataKey="pv"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
           />
-        </BarChart>
+          <Line type="monotone" dataKey="mass" stroke="#82ca9d" />
+        </LineChart>
       </ResponsiveContainer>
     </Container>
   );
 }
 
-export default BarChartComponent;
+export default LineChartComponent;
