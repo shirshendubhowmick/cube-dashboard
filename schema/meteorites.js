@@ -6,6 +6,10 @@ cube(`Meteorites`, {
       sql: `id`,
       type: `count`,
     },
+    totalMass: {
+      sql: `mass`,
+      type: `sum`,
+    },
   },
 
   dimensions: {

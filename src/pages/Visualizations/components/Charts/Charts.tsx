@@ -43,6 +43,20 @@ function Charts() {
     },
   );
 
+  const {
+    resultSet: countryWiseMassResultSet,
+    isLoading: countryWiseMasstIsLoading,
+    error: countryWiseMassError,
+  } = useCubeQuery(
+    {
+      dimensions: ["Meteorites.country"],
+      measures: ["Meteorites.totalMass"],
+    },
+    {
+      cubeApi,
+    },
+  );
+
   const yearWiseCountData = useMemo<BarChartComponentProps["data"]>(() => {
     if (yearWiseCountResultSet) {
       return yearWiseCountResultSet.tablePivot().map((item) => ({
@@ -63,19 +77,35 @@ function Charts() {
     return [];
   }, [countryWiseCountResultSet]);
 
+  const countryWiseMassData = useMemo<PieChartComponentProps["data"]>(() => {
+    if (countryWiseMassResultSet) {
+      return countryWiseMassResultSet.tablePivot().map((item) => ({
+        name: item["Meteorites.country"] as string,
+        value: parseInt(item["Meteorites.totalMass"] as string),
+      }));
+    }
+    return [];
+  }, [countryWiseMassResultSet]);
+
   return (
     <div>
       <BarChart
         data={yearWiseCountData}
-        label="Year wise meteorite data"
+        label="Year wise meteorite count"
         isLoading={yearWiseCountIsLoading}
         isError={!!yearWiseCountError}
       />
       <PieChart
         data={countryWiseCountData}
-        label="Country wise meteorite data"
+        label="Country wise meteorite count"
         isError={!!countryWiseCountError}
         isLoading={countryWiseCountIsLoading}
+      />
+      <PieChart
+        data={countryWiseMassData}
+        label="Country wise meteorite mass (grams)"
+        isError={!!countryWiseMassError}
+        isLoading={countryWiseMasstIsLoading}
       />
     </div>
   );
