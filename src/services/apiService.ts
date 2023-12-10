@@ -29,11 +29,15 @@ export async function userLogout() {
 }
 
 export async function validateSession() {
+  const csrfToken = localStorage.getItem("csrfToken");
   const response = await initNetworkRequest<
     Omit<UserLoginResponse, "csrfToken">
   >({
     URL: apiMap.validateSession.url,
     method: apiMap.validateSession.method,
+    customHeaders: {
+      "X-CSRF-Token": csrfToken,
+    },
   });
 
   return response.data;

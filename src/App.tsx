@@ -4,12 +4,22 @@ import Visualizations from "./pages/Visualizations/Visualizations";
 import useStore from "./store";
 import Login from "./pages/Login/Login";
 import MainContainer from "./components/MainContainer/MainContainer";
+import { validateSession } from "./services/apiService";
 
 function App() {
   const [state, actionFunctions] = useStore();
 
   useEffect(() => {
-    actionFunctions.authCheckComplete();
+    validateSession()
+      .then((response) => {
+        actionFunctions.userLoggedIn({
+          userData: response.data.user,
+          cubeApiToken: response.data.cubeApiToken,
+        });
+      })
+      .catch(() => {
+        actionFunctions.authCheckComplete();
+      });
   }, []);
 
   if (!state.userAuthData.isAuthenticated) {
