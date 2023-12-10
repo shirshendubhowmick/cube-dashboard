@@ -32,7 +32,7 @@ function Login() {
             type="text"
             name="username"
             placeholder="Username"
-            minLength={8}
+            minLength={6}
             className="mb-4 block w-full max-w-[300px] rounded border-2 border-solid border-gray-400 p-2"
           />
           <input
