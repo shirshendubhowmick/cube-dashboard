@@ -12,6 +12,7 @@ import {
 
 import Loader from "../../../../../../components/Loader/Loader";
 import ErrorCard from "../../../../../../components/ErrorCard/ErrorCard";
+import Container from "../Container/Container";
 
 export interface BarChartComponentProps {
   data: {
@@ -21,15 +22,6 @@ export interface BarChartComponentProps {
   label: string;
   isLoading?: boolean;
   isError?: boolean;
-}
-
-function Container(props: { children: React.ReactNode; label: string }) {
-  return (
-    <div className="inline-block h-[400px] w-full">
-      <p className="mb-4 text-lg font-medium">{props.label}</p>
-      {props.children}
-    </div>
-  );
 }
 
 function BarChartComponent(props: BarChartComponentProps) {
