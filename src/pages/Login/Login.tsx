@@ -9,7 +9,6 @@ function Login() {
   const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    console.log(data.get("username"), data.get("password"));
     const response = await userLogin(
       data.get("username") as string,
       data.get("password") as string,
