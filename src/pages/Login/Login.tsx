@@ -2,7 +2,6 @@ import { useCallback } from "react";
 
 import { userLogin } from "../../services/apiService";
 import useStore from "../../store";
-import { setCsrfToken } from "../../services/storage";
 
 function Login() {
   const [, actionFunctions] = useStore();
@@ -15,7 +14,6 @@ function Login() {
       data.get("username") as string,
       data.get("password") as string,
     );
-    setCsrfToken(response.csrfToken);
     actionFunctions.userLoggedIn({
       userData: response.user,
       cubeApiToken: response.cubeApiToken,

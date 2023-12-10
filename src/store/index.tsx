@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useReducer } from "react";
 
 import { UserData } from "../types";
+import { removeCsrfToken, setCsrfToken } from "../services/storage";
 
 export interface UserAuthData {
   isAuthenticated: boolean;
@@ -103,9 +104,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const actionFunctions = useMemo(
     () => ({
-      userLoggedIn: (payload: UserLoggedInAction["payload"]) =>
-        dispatch({ type: "USER_LOGGED_IN", payload }),
-      userLoggedOut: () => dispatch({ type: "USER_LOGGED_OUT" }),
+      userLoggedIn: (payload: UserLoggedInAction["payload"]) => {
+        setCsrfToken(payload.cubeApiToken);
+        dispatch({ type: "USER_LOGGED_IN", payload });
+      },
+      userLoggedOut: () => {
+        removeCsrfToken();
+        dispatch({ type: "USER_LOGGED_OUT" });
+      },
       authCheckComplete: () => dispatch({ type: "AUTH_CHECK_COMPLETE" }),
     }),
     [],
