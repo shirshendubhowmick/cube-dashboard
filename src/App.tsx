@@ -5,6 +5,7 @@ import useStore from "./store";
 import Login from "./pages/Login/Login";
 import MainContainer from "./components/MainContainer/MainContainer";
 import { validateSession } from "./services/apiService";
+import Loader from "./components/Loader/Loader";
 
 function App() {
   const [state, actionFunctions] = useStore();
@@ -21,6 +22,14 @@ function App() {
         actionFunctions.authCheckComplete();
       });
   }, []);
+
+  if (!state.userAuthData.isAuthCheckComplete) {
+    return (
+      <MainContainer>
+        <Loader />
+      </MainContainer>
+    );
+  }
 
   if (!state.userAuthData.isAuthenticated) {
     return (
