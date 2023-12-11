@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import { userLogin } from "../../services/apiService";
 import useStore from "../../store";
+import showToast from "../../components/Toast";
 
 function Login() {
   const [, actionFunctions] = useStore();
@@ -9,15 +10,19 @@ function Login() {
   const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const response = await userLogin(
-      data.get("username") as string,
-      data.get("password") as string,
-    );
-    actionFunctions.userLoggedIn({
-      userData: response.user,
-      cubeApiToken: response.cubeApiToken,
-      csrfToken: response.csrfToken,
-    });
+    try {
+      const response = await userLogin(
+        data.get("username") as string,
+        data.get("password") as string,
+      );
+      actionFunctions.userLoggedIn({
+        userData: response.user,
+        cubeApiToken: response.cubeApiToken,
+        csrfToken: response.csrfToken,
+      });
+    } catch (error) {
+      showToast("Invalid username or password", true);
+    }
   }, []);
 
   return (

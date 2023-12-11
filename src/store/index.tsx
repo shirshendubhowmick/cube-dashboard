@@ -85,6 +85,7 @@ function reducer(state: State, action: Actions): State {
         ...state,
         userAuthData: {
           ...initialState.userAuthData,
+          isAuthCheckComplete: true,
         },
       };
     case "AUTH_CHECK_COMPLETE":
